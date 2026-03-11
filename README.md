@@ -1,93 +1,83 @@
-# <p align="center"><img src="public/befu.png" alt="BeForth Logo" width="80" /><br/>BeForth</p>
+# <p align="center"><img src="public/befu.png" alt="BeForth Logo" width="100" /><br/>BeForth Knowledge Base</p>
 
 <p align="center">
-  <strong>The Ultra-Premium Documentation Engine for Modern Teams.</strong><br/>
-  Minimalist. Industrial. Fast. Engineered for high-end technical clarity.
+  <strong>The Official Documentation & Knowledge Platform for BeForth.</strong><br/>
+  An enterprise-grade documentation engine built for speed, precision, and high-end technical clarity.
 </p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Status-Internal%20Release-6a20a0?style=for-the-badge" alt="Internal" />
   <img src="https://img.shields.io/badge/Framework-Next.js%2014-black?style=for-the-badge&logo=next.js" alt="Next.js" />
-  <img src="https://img.shields.io/badge/Styling-Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwind-css" alt="Tailwind" />
   <img src="https://img.shields.io/badge/Animation-Framer%20Motion-FF0055?style=for-the-badge&logo=framer" alt="Framer Motion" />
-  <img src="https://img.shields.io/badge/Language-TypeScript-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Deployment-Production-success?style=for-the-badge" alt="Deployment" />
 </p>
 
 ---
 
-## ✨ The Vision
-**BeForth** isn't just a documentation site; it's an editorial experience. Built on a foundation of "Industrial Minimalism," it strips away the noise of traditional documentation kits and replaces it with sub-pixel precision, fluid motion, and a layout that breathes.
+## 🏗️ Technical Architecture
+BeForth KB is engineered using a modern, low-latency stack designed to provide an instant reading experience for our team and clients.
 
-> [!IMPORTANT]
-> This engine is optimized for high-performance reading and discovery. Every transition is measured in milliseconds to ensure zero cognitive friction for your users.
-
----
-
-## 🚀 Killer Features
-
-### 🎨 Premium Design System
-- **Industrial Aesthetic**: A strict neutral palette (Zinc/Slate) paired with high-contrast typography using **Plus Jakarta Sans** and **Outfit**.
-- **Glassmorphism**: Sticky headers with real-time `8px` background blurring for depth.
-- **Dynamic Accents**: Variable accent colors that adapt per section, providing visual context without overwhelming the reader.
-
-### 🎭 Fluid Motion (Framer Motion)
-- **Staggered Entry**: Sidebar folders that expand with an elastic ease and reveal child pages one by one.
-- **Blur-Fade Breadcrumbs**: Navigation trails that slide and blur into existence as you scroll or click.
-- **Icon Morphing**: UI elements like the theme switcher use rotational scaling for tactile feedback.
-
-### 🔍 Command Palette Search
-- **Instant Discovery**: A lightning-fast search engine that indexes every page, group, and fragment.
-- **Keyboard First**: Access everything via `⌘K` or `Ctrl+F`. Full arrow-key navigation support.
-- **Contextual Results**: Results are grouped by section and highlighted in real-time.
-
-### ⚡ Technical Excellence
-- **Scroll-Spy 2.0**: The Table of Contents and Breadcrumbs sync perfectly with your scroll position using high-efficiency `IntersectionObservers`.
-- **Dark Mode Native**: A curated dark theme engineered to reduce eye strain during long technical deep-dives.
-- **Zero Placeholder Policy**: Built with production-ready assets and modular component architecture.
+- **Frontend**: Next.js 14 utilizing the App Router and Server Components for optimized delivery.
+- **Design System**: A custom **Industrial Minimalist** design system built on Tailwind CSS, featuring a strict neutral palette (Zinc/Slate) and high-legibility typography.
+- **Motion Engine**: Framer Motion powered transitions for sidebar interactions, breadcrumb navigation, and UI state changes.
+- **Typographic Stack**: 
+  - **Headings**: Outfit (Sans-Serif)
+  - **Body**: Plus Jakarta Sans (Sans-Serif)
+  - **Code/Metadata**: DM Mono
 
 ---
 
-## 🛠️ Tech Stack
+## 🔥 Key Platforms & Features
 
-- **Core**: Next.js 14 (App Router)
-- **Logic**: TypeScript (Strict Mode)
-- **Styling**: Tailwind CSS + Custom CSS Variables
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-- **Typography**: Google Fonts (Plus Jakarta Sans, Outfit, DM Mono)
+### 🏢 Internal Operations
+Comprehensive guides for our internal system, including:
+- **Core HR**: Managing employee lifecycles and records.
+- **Time & Attendance**: Tracking shifts, holidays, and attendance logs.
+- **Talent Acquisition**: Full-cycle recruitment and onboarding pipelines.
+- **System Admin**: RBAC (Role-Based Access Control) and security settings.
+
+### 🎭 Animation & UX
+- **Elastic Sidebar**: Folders that expand with a custom cubic-bezier ease for a mechanical feel.
+- **Intelligent Breadcrumbs**: Real-time position tracking with blur-fade transitions.
+- **Command Palette (⌘K)**: Global instant-search indexing across the entire documentation structure.
+
+### 📜 Automated Content Management
+- **Structured Data**: Documentation is driven by a centralized `docs-content.ts` engine, allowing for easy updates and versioning.
+- **Static Site Generation**: Fast load times with high SEO efficiency.
 
 ---
 
-## 📖 Getting Started
+## 🛠️ Developer Setup
 
-### 1. Clone the repository
+For the BeForth engineering team:
+
+### 1. Requirements
+Ensure you have **Node.js 18+** installed.
+
+### 2. Installation
 ```bash
 git clone https://github.com/RandomKid24/docy.git
 cd docy
-```
-
-### 2. Install dependencies
-```bash
 npm install
 ```
 
-### 3. Run Development Server
+### 3. Running Locally
 ```bash
 npm run dev
 ```
-Open [http://localhost:6969](http://localhost:6969) to see the magic.
+Navigate to [http://localhost:6969](http://localhost:6969).
+
+### 4. Code Standards
+Please refer to the [BeForth Design & Implementation Guide](src/BEFORTH_DESIGN_GUIDE.md) before making UI or animation changes.
 
 ---
 
-## 🛡️ Design Philosophy
-BeForth follows a strict adherence to **Subtlety over Loudness**. 
-- Animation should support the content, never distract from it.
-- Typography is the primary interface.
-- Contrast is a feature, not a byproduct.
-
-For a deep dive into how we handle color tokens and motion curves, see our [Design & Implementation Guide](src/BEFORTH_DESIGN_GUIDE.md).
+## ⚖️ License
+© 2026 BeForth. All Rights Reserved.  
+Proprietary software. Unauthorized copying, modification, or distribution is strictly prohibited.
 
 ---
 
 <p align="center">
-  Made with precision by Antigravity & RandomKid24.
+  Generated for BeForth by Antigravity AI.
 </p>
