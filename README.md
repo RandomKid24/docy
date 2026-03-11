@@ -47,6 +47,31 @@ Comprehensive guides for our internal system, including:
 
 ---
 
+## 📂 Project Structure
+
+```bash
+docy/
+├── src/
+│   ├── app/          # Next.js App Router (Routes & Layouts)
+│   ├── components/   # UI & Layout components (Modern shadcn-like)
+│   ├── data/         # Documentation content & Site configuration
+│   ├── lib/          # Utilities (Tailwind merge, etc.)
+│   └── styles/       # Global CSS & Tailwind entry points
+├── public/           # Static assets (Logo, Favicon)
+└── README.md         # You are here
+```
+
+---
+
+## ✍️ Adding Content
+
+To add or modify documentation, follow these two steps:
+
+1. **Define Section**: Add the page meta (ID, label) to `src/data/site-config.ts`.
+2. **Add Content**: Insert the markdown/JSX blocks in `src/data/docs-content.ts` using the predefined `ContentBlock` schema.
+
+---
+
 ## 🛠️ Developer Setup
 
 For the BeForth engineering team:
@@ -67,17 +92,15 @@ npm run dev
 ```
 Navigate to [http://localhost:6969](http://localhost:6969).
 
-### 4. Code Standards
-Please refer to the [BeForth Design & Implementation Guide](src/BEFORTH_DESIGN_GUIDE.md) before making UI or animation changes.
-
 ---
 
 ## ⚖️ License
-© 2026 BeForth. All Rights Reserved.  
-Proprietary software. Unauthorized copying, modification, or distribution is strictly prohibited.
+> [!IMPORTANT]
+> **Proprietary & Confidential**  
+> © 2026 BeForth. All Rights Reserved. Unauthorized copying, modification, or distribution is strictly prohibited.
 
 ---
 
 <p align="center">
-  Generated for BeForth by Antigravity AI.
+  Engineering Excellence by <b>BeForth</b> x <b>Antigravity AI</b>
 </p>
