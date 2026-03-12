@@ -10,7 +10,7 @@ export const LIGHT = {
   ink: "#09090b", ink2: "#52525b", ink3: "#a1a1aa",
 };
 
-export type SiteNav = "HRMS Guide";
+export type SiteNav = "HRMS Guide" | "Marketing Guide";
 
 export interface DocPage {
   id: string;
@@ -37,7 +37,7 @@ export interface SiteConfig {
 
 export const SITE: SiteConfig = {
   name: "BeForth",
-  nav: ["HRMS Guide"],
+  nav: ["HRMS Guide", "Marketing Guide"],
   sections: {
     "HRMS Guide": {
       color: "#8b5cf6", // Violet accent
@@ -79,5 +79,34 @@ export const SITE: SiteConfig = {
         ]},
       ],
     },
+    "Marketing Guide": {
+      color: "#0ea5e9", // Sky blue accent
+      groups: [
+        { id: "m-intro", label: "Getting Started", defaultOpen: true, pages: [
+          { id: "m-getting-started", label: "Overview & Login" },
+          { id: "m-dashboard", label: "Marketing Dashboard" },
+        ]},
+        { id: "m-setup", label: "Setup", defaultOpen: true, pages: [
+          { id: "m-domains", label: "Domains & Regions" },
+        ]},
+        { id: "m-sales", label: "Sales Pipeline", defaultOpen: true, pages: [
+          { id: "m-leads", label: "Leads Pipeline" },
+          { id: "m-quotations", label: "Quotations" },
+          { id: "m-orders", label: "Orders Pipeline" },
+        ]},
+        { id: "m-data", label: "Master Data", defaultOpen: true, pages: [
+          { id: "m-database", label: "Database (Contacts/Customers)" },
+        ]},
+        { id: "m-analytics", label: "Analytics", defaultOpen: true, pages: [
+          { id: "m-reports", label: "Predefined Reports" },
+          { id: "m-report-templates", label: "Custom Templates" },
+        ]},
+        { id: "m-config", label: "Configuration", defaultOpen: true, pages: [
+          { id: "m-settings", label: "Settings & Numbering" },
+          { id: "m-notifications", label: "Notifications" },
+        ]},
+      ],
+    },
   },
 };
+

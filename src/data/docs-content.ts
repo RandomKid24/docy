@@ -2451,5 +2451,816 @@ export const CONTENT: Record<string, DocContent> = {
         "text": "• [DJANGO_IMPORT_EXPORT_GUIDE.md](DJANGO_IMPORT_EXPORT_GUIDE.md) — Admin import/export"
       }
     ]
+  },
+  "m-getting-started": {
+    "title": "Getting started",
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "1.1 Logging in"
+      },
+      {
+        "type": "p",
+        "text": "1. Open the Marketing app in your browser (e.g. `https://marketing.aureolegroup.com` or the URL provided by your admin)."
+      },
+      {
+        "type": "p",
+        "text": "2. Enter your **HRMS username** and **password** (the same credentials you use for your company HRMS)."
+      },
+      {
+        "type": "p",
+        "text": "3. Click **Login**."
+      },
+      {
+        "type": "p",
+        "text": "4. If login succeeds, you are taken to the **Dashboard**. If you see “Invalid credentials” or a permission error, check your username/password or ask your admin to grant you access to the Marketing module."
+      },
+      {
+        "type": "h2",
+        "text": "1.2 What you see after login"
+      },
+      {
+        "type": "p",
+        "text": "• **Sidebar (left):** Main menu. The items you see depend on your permissions. Common items:"
+      },
+      {
+        "type": "p",
+        "text": "• **Dashboard** — Overview and saved dashboards"
+      },
+      {
+        "type": "p",
+        "text": "• **Domains** — Domain and region setup"
+      },
+      {
+        "type": "p",
+        "text": "• **Leads** — Lead pipeline"
+      },
+      {
+        "type": "p",
+        "text": "• **Quotations** — Quotation list"
+      },
+      {
+        "type": "p",
+        "text": "• **Orders** — Order pipeline"
+      },
+      {
+        "type": "p",
+        "text": "• **Database** — Organizations, Customers, Contacts"
+      },
+      {
+        "type": "p",
+        "text": "• **Reports** — Predefined reports"
+      },
+      {
+        "type": "p",
+        "text": "• **Report templates** — Custom report templates"
+      },
+      {
+        "type": "p",
+        "text": "• **Settings** — Your profile and app settings"
+      },
+      {
+        "type": "p",
+        "text": "• **Top bar:** Usually shows your context (e.g. domain/scope) and notifications."
+      },
+      {
+        "type": "p",
+        "text": "• **Main area:** The page for the section you selected."
+      },
+      {
+        "type": "h2",
+        "text": "1.3 Logging out"
+      },
+      {
+        "type": "p",
+        "text": "• Use **Settings** (or the user menu in the top bar) and choose **Logout**, or use the logout option provided in your deployment."
+      }
+    ]
+  },
+  "m-dashboard": {
+    "title": "Dashboard",
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "2.1 Opening the dashboard"
+      },
+      {
+        "type": "p",
+        "text": "1. Click **Dashboard** in the sidebar (or go to the home URL)."
+      },
+      {
+        "type": "p",
+        "text": "2. The dashboard shows:"
+      },
+      {
+        "type": "p",
+        "text": "• **Summary cards** (e.g. leads, contacts, customers, targets) based on your permissions and scope."
+      },
+      {
+        "type": "p",
+        "text": "• **Saved dashboards** (if any are assigned to you): select a dashboard from the dropdown to see its widgets (tables, charts, KPIs)."
+      },
+      {
+        "type": "h2",
+        "text": "2.2 Using a saved dashboard"
+      },
+      {
+        "type": "p",
+        "text": "1. In the dashboard page, use the **Saved dashboard** dropdown."
+      },
+      {
+        "type": "p",
+        "text": "2. Select a dashboard name."
+      },
+      {
+        "type": "p",
+        "text": "3. The page shows that dashboard’s sections (e.g. revenue, conversion, lead lists). Data is filtered by your scope (e.g. your region or domain) when applicable."
+      },
+      {
+        "type": "p",
+        "text": "4. You can **Assign** the dashboard to other users (if you have permission) so they see it in their list."
+      }
+    ]
+  },
+  "m-domains": {
+    "title": "Domains and regions",
+    "blocks": [
+      {
+        "type": "p",
+        "text": "Domains (e.g. Domestic, Export) and regions (e.g. South 1, North 1) structure how leads and orders are scoped."
+      },
+      {
+        "type": "h2",
+        "text": "3.1 Viewing domains and regions"
+      },
+      {
+        "type": "p",
+        "text": "1. Click **Domains** in the sidebar."
+      },
+      {
+        "type": "p",
+        "text": "2. You see a list of **domains** and, under each, its **regions**."
+      },
+      {
+        "type": "p",
+        "text": "3. Expand a domain to see region heads and employees assigned to regions (if your role can see this)."
+      },
+      {
+        "type": "h2",
+        "text": "3.2 Creating or editing a domain (if you have permission)"
+      },
+      {
+        "type": "p",
+        "text": "1. Go to **Domains**."
+      },
+      {
+        "type": "p",
+        "text": "2. To **create**: click **Add domain** (or **New domain**)."
+      },
+      {
+        "type": "p",
+        "text": "To edit: click the domain name or an Edit action."
+      },
+      {
+        "type": "p",
+        "text": "3. Fill in **Name**, **Code**, **Description** and any other required fields."
+      },
+      {
+        "type": "p",
+        "text": "4. Save."
+      },
+      {
+        "type": "h2",
+        "text": "3.3 Creating or editing a region (if you have permission)"
+      },
+      {
+        "type": "p",
+        "text": "1. Go to **Domains** and expand the domain."
+      },
+      {
+        "type": "p",
+        "text": "2. To **add a region**: use **Add region** or **New region** for that domain."
+      },
+      {
+        "type": "p",
+        "text": "To edit: open the region and use Edit."
+      },
+      {
+        "type": "p",
+        "text": "3. Enter **Name**, **Code**, and optionally **Region head** (employee)."
+      },
+      {
+        "type": "p",
+        "text": "4. Save."
+      },
+      {
+        "type": "h2",
+        "text": "3.4 Assigning employees to regions (if you have permission)"
+      },
+      {
+        "type": "p",
+        "text": "1. In **Domains**, open the domain/region view where assignments are managed."
+      },
+      {
+        "type": "p",
+        "text": "2. Use **Assign employee** (or similar) and select the employee and role (e.g. region head)."
+      },
+      {
+        "type": "p",
+        "text": "3. Save. Assigned users will then see that region in their scope for leads, reports, etc."
+      }
+    ]
+  },
+  "m-leads": {
+    "title": "Leads",
+    "blocks": [
+      {
+        "type": "p",
+        "text": "Leads are potential opportunities. They move through statuses (e.g. New → Quote generated → Negotiation → Won/Lost) and can be linked to a contact or customer."
+      },
+      {
+        "type": "h2",
+        "text": "4.1 Viewing leads"
+      },
+      {
+        "type": "p",
+        "text": "1. Click **Leads** in the sidebar."
+      },
+      {
+        "type": "p",
+        "text": "2. You can switch between:"
+      },
+      {
+        "type": "p",
+        "text": "• **Kanban view** — Columns by lead status; cards show lead number, name, and key details."
+      },
+      {
+        "type": "p",
+        "text": "• **Table view** — List with columns such as Lead No., Name, Domain, Region, Status, Potential value."
+      },
+      {
+        "type": "p",
+        "text": "3. Use **Show Won/Lost** (if available) to include or hide Won and Lost status columns."
+      },
+      {
+        "type": "p",
+        "text": "4. **Lead numbers** (e.g. LEAD-00001) are shown on cards and in the table; they are assigned when the lead is created and cannot be changed."
+      },
+      {
+        "type": "h2",
+        "text": "4.2 Creating a new lead"
+      },
+      {
+        "type": "p",
+        "text": "1. Go to **Leads** and click **New lead** (or **Add lead**)."
+      },
+      {
+        "type": "p",
+        "text": "2. **Link to a person/company:**"
+      },
+      {
+        "type": "p",
+        "text": "• Choose **Contact** and select an existing contact, or create a new one."
+      },
+      {
+        "type": "p",
+        "text": "• Or choose **Customer** and select an existing customer."
+      },
+      {
+        "type": "p",
+        "text": "3. **Domain & region:** Select the **Domain** and **Region** for the lead."
+      },
+      {
+        "type": "p",
+        "text": "4. **Lead No. (number series):** For new leads, choose the **number series** for the lead number (e.g. “Lead number”). The actual number is generated on save and cannot be edited later."
+      },
+      {
+        "type": "p",
+        "text": "5. **Lead type** (e.g. Standard, Project) and **Lead through** (e.g. Cold Calling, Website, GeM Portal, Exhibitions, Direct enquiries, whatsapp, Campaign): select as needed."
+      },
+      {
+        "type": "p",
+        "text": "6. **Potential value** and **Expected closing date** (optional)."
+      },
+      {
+        "type": "p",
+        "text": "7. **Notes** (optional)."
+      },
+      {
+        "type": "p",
+        "text": "8. Click **Save**. The lead is created and a **Lead No.** is assigned."
+      },
+      {
+        "type": "h2",
+        "text": "4.3 Editing a lead"
+      },
+      {
+        "type": "p",
+        "text": "1. In **Leads**, open the lead (click the card or the row, or use **Edit**)."
+      },
+      {
+        "type": "p",
+        "text": "2. Update any allowed fields (contact/customer, domain, region, status, potential value, notes, follow-up date, etc.)."
+      },
+      {
+        "type": "p",
+        "text": "3. **Lead No.** is read-only and cannot be changed."
+      },
+      {
+        "type": "p",
+        "text": "4. Save."
+      },
+      {
+        "type": "h2",
+        "text": "4.4 Moving a lead through the pipeline (Kanban)"
+      },
+      {
+        "type": "p",
+        "text": "1. In **Kanban** view, **drag** a lead card from one status column to another (e.g. from “New” to “Quote generated”)."
+      },
+      {
+        "type": "p",
+        "text": "2. **Won** and **Lost** leads cannot be dragged; their status is final."
+      },
+      {
+        "type": "p",
+        "text": "3. If the new status requires extra data (e.g. closed value for Won), a form or modal may appear; fill it and confirm."
+      },
+      {
+        "type": "h2",
+        "text": "4.5 Marking a lead as Lost"
+      },
+      {
+        "type": "p",
+        "text": "1. Open the lead and change status to **Lost**, or use the action **Mark as Lost** (if available)."
+      },
+      {
+        "type": "p",
+        "text": "2. In the **Mark lead as Lost** form:"
+      },
+      {
+        "type": "p",
+        "text": "• **Competitor name (lost to whom):** Enter the competitor or choose **Not sure**."
+      },
+      {
+        "type": "p",
+        "text": "• **Lost at (at which price):** Enter the price or choose **Not sure**."
+      },
+      {
+        "type": "p",
+        "text": "3. Confirm. The lead moves to the Lost status and cannot be moved again via drag."
+      },
+      {
+        "type": "h2",
+        "text": "4.6 Marking a lead as Won"
+      },
+      {
+        "type": "p",
+        "text": "1. Move the lead to **Won** (via status change or Kanban)."
+      },
+      {
+        "type": "p",
+        "text": "2. Enter **Closed value** (actual deal value) when prompted."
+      },
+      {
+        "type": "p",
+        "text": "3. Save. The lead is then treated as Won and cannot be dragged to another status."
+      },
+      {
+        "type": "h2",
+        "text": "4.7 Follow-up and activities"
+      },
+      {
+        "type": "p",
+        "text": "• Set **Next follow-up date** (and reminder type if available) on the lead so you get reminders."
+      },
+      {
+        "type": "p",
+        "text": "• Use **Activities** (or **Enquiry log**) on the lead to add notes, calls, meetings; these are visible in the lead detail and in reports."
+      }
+    ]
+  },
+  "m-quotations": {
+    "title": "Quotations",
+    "blocks": [
+      {
+        "type": "p",
+        "text": "Quotations are linked to leads and used to prepare and track quotes."
+      },
+      {
+        "type": "h2",
+        "text": "5.1 Viewing quotations"
+      },
+      {
+        "type": "p",
+        "text": "1. Click **Quotations** in the sidebar."
+      },
+      {
+        "type": "p",
+        "text": "2. You see a list of quotations, often with lead reference, date, and status."
+      },
+      {
+        "type": "p",
+        "text": "3. Use filters or search if the page provides them."
+      },
+      {
+        "type": "h2",
+        "text": "5.2 Creating or editing a quotation (if available)"
+      },
+      {
+        "type": "p",
+        "text": "1. From **Quotations**, use **New quotation** or open a lead and add a quotation from there."
+      },
+      {
+        "type": "p",
+        "text": "2. Select the **Lead** and fill in quote details (products, amounts, validity, etc.) as per your process."
+      },
+      {
+        "type": "p",
+        "text": "3. Save. The lead may move to a status like “Quote generated” or “Quotation submitted” depending on your workflow."
+      }
+    ]
+  },
+  "m-orders": {
+    "title": "Orders",
+    "blocks": [
+      {
+        "type": "p",
+        "text": "Orders represent confirmed deals, usually created from Won leads."
+      },
+      {
+        "type": "h2",
+        "text": "6.1 Viewing orders"
+      },
+      {
+        "type": "p",
+        "text": "1. Click **Orders** in the sidebar."
+      },
+      {
+        "type": "p",
+        "text": "2. You can use **Kanban** (by order status) or **Table** view."
+      },
+      {
+        "type": "p",
+        "text": "3. **Order numbers** (e.g. ORD-00001) are shown on cards and in the table; they are assigned at creation and are read-only."
+      },
+      {
+        "type": "h2",
+        "text": "6.2 Creating a new order"
+      },
+      {
+        "type": "p",
+        "text": "1. Go to **Orders** and click **New order** (or **Add order**)."
+      },
+      {
+        "type": "p",
+        "text": "2. **Link to lead:** Select the **Lead** (typically a Won lead)."
+      },
+      {
+        "type": "p",
+        "text": "3. **Order No. (number series):** Choose the number series for the order number; the value is generated on save and cannot be changed later."
+      },
+      {
+        "type": "p",
+        "text": "4. Enter **Order value**, **Region**, and any other required fields."
+      },
+      {
+        "type": "p",
+        "text": "5. Save."
+      },
+      {
+        "type": "h2",
+        "text": "6.3 Editing an order and moving status (Kanban)"
+      },
+      {
+        "type": "p",
+        "text": "1. Open the order from the list or Kanban."
+      },
+      {
+        "type": "p",
+        "text": "2. Edit allowed fields (value, dates, notes, etc.). **Order No.** cannot be changed."
+      },
+      {
+        "type": "p",
+        "text": "3. In Kanban, **drag** the order to another status (e.g. Pending → Drawing Approved → Advance). **Won** and **Lost** order statuses are final; those orders cannot be dragged."
+      }
+    ]
+  },
+  "m-database": {
+    "title": "Database: organizations, contacts, customers",
+    "blocks": [
+      {
+        "type": "p",
+        "text": "The Database section holds master data: Organizations, Contacts, and Customers. Organizations can have Plants; contacts and customers can be linked to an organization and a plant."
+      },
+      {
+        "type": "h2",
+        "text": "7.1 Organizations"
+      },
+      {
+        "type": "p",
+        "text": "• **View list:** Click **Database** → **Organizations** (or **Organizations** from the menu)."
+      },
+      {
+        "type": "p",
+        "text": "• **Create:** Click **New organization**. Enter **Name**, **Code**, **Industry**, and other fields. Save."
+      },
+      {
+        "type": "p",
+        "text": "• **Edit:** Open an organization and click **Edit**."
+      },
+      {
+        "type": "p",
+        "text": "• **Plants:** Open an organization; in the **Plants** tab (or section), add plants (e.g. Main Plant, North Unit) with name, code, address. Contacts and customers can then be linked to that organization and to a specific plant."
+      },
+      {
+        "type": "h2",
+        "text": "7.2 Contacts"
+      },
+      {
+        "type": "p",
+        "text": "• **View list:** **Database** → **Contacts**."
+      },
+      {
+        "type": "p",
+        "text": "• **Create:** **New contact**. Enter person details (name, email, phone), **Domain**, **Region**, and optionally **Organization** and **Plant** (if the contact belongs to an org/plant)."
+      },
+      {
+        "type": "p",
+        "text": "• **Edit:** Open the contact and edit. You can change the linked **Organization** and **Plant**."
+      },
+      {
+        "type": "p",
+        "text": "• **Convert to customer:** Use **Convert to customer** (if available) to create a customer from the contact and link them."
+      },
+      {
+        "type": "h2",
+        "text": "7.3 Customers"
+      },
+      {
+        "type": "p",
+        "text": "• **View list:** **Database** → **Customers**."
+      },
+      {
+        "type": "p",
+        "text": "• **Create:** **New customer**. Enter **Company name**, **Domain**, **Region**, address, and optionally **Organization** and **Plant**."
+      },
+      {
+        "type": "p",
+        "text": "• **Edit:** Open the customer and update details, including **Organization** and **Plant** if needed."
+      },
+      {
+        "type": "h2",
+        "text": "7.4 Using organizations and plants when creating leads"
+      },
+      {
+        "type": "p",
+        "text": "• When creating or editing a **lead**, you choose a **Contact** or **Customer**. If that contact/customer is linked to an **Organization** and **Plant**, that context is used for the lead (e.g. for reports and filters). You can also select a **Plant** on the lead if the form allows it."
+      }
+    ]
+  },
+  "m-reports": {
+    "title": "Reports",
+    "blocks": [
+      {
+        "type": "p",
+        "text": "Predefined reports (e.g. expected orders, OD plan) are available under Reports."
+      },
+      {
+        "type": "h2",
+        "text": "8.1 Opening reports"
+      },
+      {
+        "type": "p",
+        "text": "1. Click **Reports** in the sidebar."
+      },
+      {
+        "type": "p",
+        "text": "2. You may see a list of report types (e.g. **Expected orders**, **OD plan**)."
+      },
+      {
+        "type": "p",
+        "text": "3. Select a report. The report may ask for **date range**, **domain**, **region**, or **employee**; choose filters and load the report."
+      },
+      {
+        "type": "h2",
+        "text": "8.2 Expected orders report"
+      },
+      {
+        "type": "p",
+        "text": "1. Go to **Reports** → **Expected orders** (or the equivalent in your menu)."
+      },
+      {
+        "type": "p",
+        "text": "2. Set **Date from** and **Date to** (and any other filters)."
+      },
+      {
+        "type": "p",
+        "text": "3. View the list or table. You can add or edit expected order entries if your role has permission."
+      },
+      {
+        "type": "h2",
+        "text": "8.3 OD plan report"
+      },
+      {
+        "type": "p",
+        "text": "1. Go to **Reports** → **OD plan** (or similar)."
+      },
+      {
+        "type": "p",
+        "text": "2. Select **Year** and **Month** (and scope if required)."
+      },
+      {
+        "type": "p",
+        "text": "3. View or edit the OD plan data as per your permissions."
+      }
+    ]
+  },
+  "m-report-templates": {
+    "title": "Report templates",
+    "blocks": [
+      {
+        "type": "p",
+        "text": "Report templates let you build custom reports with SQL-based sections. Each section can be searched, filtered by column, and sorted by column."
+      },
+      {
+        "type": "h2",
+        "text": "9.1 Opening report templates"
+      },
+      {
+        "type": "p",
+        "text": "1. Click **Report templates** in the sidebar."
+      },
+      {
+        "type": "p",
+        "text": "2. You see a list of templates. Select one from the left (or dropdown) to view its report."
+      },
+      {
+        "type": "h2",
+        "text": "9.2 Applying filters and date range"
+      },
+      {
+        "type": "p",
+        "text": "1. At the top of the report, set **Date from** and **Date to** if the template uses them."
+      },
+      {
+        "type": "p",
+        "text": "2. Use **entity filters** (e.g. Domain, Region, Lead, Contact, Customer, Organization, Plant) to narrow the data. The list of filters depends on what the template supports (placeholders)."
+      },
+      {
+        "type": "h2",
+        "text": "9.3 Using each section: search, filter, sort"
+      },
+      {
+        "type": "p",
+        "text": "For each section (table) in the report:"
+      },
+      {
+        "type": "p",
+        "text": "• **Search**"
+      },
+      {
+        "type": "p",
+        "text": "• In the **“Search in section…”** box, type text. The table shows only rows where **any** cell contains that text (case-insensitive)."
+      },
+      {
+        "type": "p",
+        "text": "• **Filter by column**"
+      },
+      {
+        "type": "p",
+        "text": "• Choose a **Column** from the “Filter by column” dropdown."
+      },
+      {
+        "type": "p",
+        "text": "• In **Value**, type the value (or part of it). Only rows where that column contains the value are shown."
+      },
+      {
+        "type": "p",
+        "text": "• **Sort**"
+      },
+      {
+        "type": "p",
+        "text": "• **Click a column header** to sort by that column. First click = ascending; second click = descending. A sort icon (↑/↓) appears on the active column."
+      },
+      {
+        "type": "p",
+        "text": "• **Row count**"
+      },
+      {
+        "type": "p",
+        "text": "• The section shows “X of Y rows” after search and filter so you know how many rows are visible."
+      },
+      {
+        "type": "h2",
+        "text": "9.4 Creating or editing a report template (if you have permission)"
+      },
+      {
+        "type": "p",
+        "text": "1. Click **New report template** (or **Create**). Enter **Name** and **Description**; save."
+      },
+      {
+        "type": "p",
+        "text": "2. **Add section:** Click **Add section**. Give a **Title** and write a **SQL** query (SELECT only). Use placeholders such as `{{date_from}}`, `{{date_to}}`, `{{employee_id}}`, `{{domain_id}}`, `{{lead_id}}`, etc., as documented in the UI or Schema page."
+      },
+      {
+        "type": "p",
+        "text": "3. **Edit section:** Open the section’s edit (pencil icon), change title or SQL, and save."
+      },
+      {
+        "type": "p",
+        "text": "4. **Remove section:** Use the remove (trash) icon for that section."
+      },
+      {
+        "type": "p",
+        "text": "5. **Assign template:** Use **Assign** to give other users (or yourself) access to this template; they will see it in their Report templates list."
+      },
+      {
+        "type": "h2",
+        "text": "9.5 Schema reference"
+      },
+      {
+        "type": "p",
+        "text": "• For table and column names to use in SQL, open **Schema** (link in the app or **Schema** in the menu) and refer to the listed tables and columns."
+      }
+    ]
+  },
+  "m-settings": {
+    "title": "Settings and numbering series",
+    "blocks": [
+      {
+        "type": "h2",
+        "text": "10.1 Settings"
+      },
+      {
+        "type": "p",
+        "text": "1. Click **Settings** in the sidebar (or your profile/user menu)."
+      },
+      {
+        "type": "p",
+        "text": "2. You can:"
+      },
+      {
+        "type": "p",
+        "text": "• View or update your **profile** (if the app supports it)."
+      },
+      {
+        "type": "p",
+        "text": "• **Connect email** (e.g. Gmail) for sending from the app, if enabled."
+      },
+      {
+        "type": "p",
+        "text": "• Adjust **notification** preferences (in-app or push), if available."
+      },
+      {
+        "type": "h2",
+        "text": "10.2 Numbering series (admin)"
+      },
+      {
+        "type": "p",
+        "text": "• If you have **Numbering series** in the menu (admin permission):"
+      },
+      {
+        "type": "p",
+        "text": "1. Open **Numbering series**."
+      },
+      {
+        "type": "p",
+        "text": "2. You see series used for **Lead numbers** and **Order numbers** (e.g. LEAD-00001, ORD-00001)."
+      },
+      {
+        "type": "p",
+        "text": "3. You can add or edit series (code, pattern, reset period). Changes affect **new** leads and orders; existing numbers do not change."
+      },
+      {
+        "type": "p",
+        "text": "4. Default series for leads and orders can be set in the app configuration; the lead/order forms let users choose the series when creating a new record."
+      }
+    ]
+  },
+  "m-notifications": {
+    "title": "Notifications",
+    "blocks": [
+      {
+        "type": "p",
+        "text": "• **In-app:** Notifications (e.g. follow-up reminders, assignment) appear in the notification bell or panel. Click a notification to open the related lead/order (e.g. `/leads/{id}/edit`)."
+      },
+      {
+        "type": "p",
+        "text": "• **Browser push:** If you allow push notifications, you may receive reminders in the browser. Ensure the site is allowed in your browser’s notification settings."
+      },
+      {
+        "type": "p",
+        "text": "• **Preferences:** Control how you receive notifications in **Settings** (if the option is available)."
+      },
+      {
+        "type": "p",
+        "text": "## Quick reference"
+      },
+      {
+        "type": "p",
+        "text": "*If a menu item or action is missing, your user role may not have the required permission. Contact your administrator to get access.*"
+      }
+    ]
   }
 };

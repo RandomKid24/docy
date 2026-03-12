@@ -6,10 +6,10 @@ import { DARK, LIGHT, SITE, SiteNav } from "@/data/site-config";
 import { useTheme } from "@/components/providers/theme-provider";
 import { motion } from "framer-motion";
 
-export function Sidebar() {
+export function Sidebar({ currentSection }: { currentSection: SiteNav }) {
   const { theme } = useTheme();
   const T = theme === "dark" ? DARK : LIGHT;
-  const [activeId, setActiveId] = React.useState("what-is-hrms");
+  const [activeId, setActiveId] = React.useState(currentSection === "Marketing Guide" ? "m-getting-started" : "what-is-hrms");
 
   React.useEffect(() => {
     // Set initial hash or default to first section
@@ -28,8 +28,7 @@ export function Sidebar() {
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
-  const navKey = "HRMS Guide" as SiteNav;
-  const section = SITE.sections[navKey];
+  const section = SITE.sections[currentSection];
   const ac = section?.color || "#6a20a0";
 
   return (
@@ -43,7 +42,7 @@ export function Sidebar() {
       {/* Section label */}
       <div className="px-4 pt-1 pb-4 flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: T.ink3 }}>
         <span className="accent-pulse w-1.5 h-1.5 rounded-full transition-colors shrink-0" style={{ background: ac }} />
-        <span style={{ color: ac, fontWeight: 500 }}>{navKey}</span>
+        <span style={{ color: ac, fontWeight: 500 }}>{currentSection}</span>
       </div>
 
       <div className="flex flex-col gap-0.5">
@@ -56,7 +55,7 @@ export function Sidebar() {
           >
             <SidebarGroup 
               group={g} 
-              sectionId={navKey} 
+              sectionId={currentSection} 
               activeId={activeId} 
               ac={ac} 
             />

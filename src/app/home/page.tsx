@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useTheme } from "@/components/providers/theme-provider";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { DARK, LIGHT } from "@/data/site-config";
-import { ArrowRight, Box, Shield, Zap } from "lucide-react";
+import { ArrowRight, Box, Shield, Zap, Layers } from "lucide-react";
+import { Tilt } from "@/components/ui/tilt";
+import { Spotlight } from "@/components/ui/spotlight";
 
 export default function HomePage() {
   const { theme, toggleTheme } = useTheme();
@@ -16,7 +18,7 @@ export default function HomePage() {
       title: "Core HR",
       description: "Manage your workforce data centrally. Employee records, departments, onboarding, and company structure.",
       icon: <Box size={24} strokeWidth={1.5} />,
-      slug: "what-is-hrms",
+      slug: "hrms-guide#what-is-hrms",
       color: "#6a20a0",
       status: "Live"
     },
@@ -24,7 +26,7 @@ export default function HomePage() {
       title: "Time & Attendance",
       description: "Track work hours, manage leave policies, and handle shift scheduling automatically.",
       icon: <Zap size={24} strokeWidth={1.5} />,
-      slug: "dashboard",
+      slug: "hrms-guide#dashboard",
       color: "#1a7a3a",
       status: "Live"
     },
@@ -32,9 +34,17 @@ export default function HomePage() {
       title: "Recruitment & Ops",
       description: "Streamline hiring, manage company assets, and create custom forms for surveys and feedback.",
       icon: <Shield size={24} strokeWidth={1.5} />,
-      slug: "forms",
+      slug: "hrms-guide#forms",
       color: "#1060a8",
       status: "Beta"
+    },
+    {
+      title: "Marketing Guide",
+      description: "Complete guide for leads, orders, organizations, and marketing analytics.",
+      icon: <Layers size={24} strokeWidth={1.5} />,
+      slug: "marketing-guide#m-getting-started",
+      color: "#0ea5e9",
+      status: "New"
     }
   ];
 
@@ -61,7 +71,7 @@ export default function HomePage() {
         </p>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full text-left font-sans">
           {products.map((product, i) => (
             <ProductCard key={i} product={product} T={T} />
           ))}
@@ -77,37 +87,56 @@ export default function HomePage() {
 
 function ProductCard({ product, T }: { product: any, T: any }) {
   return (
-    <Link 
-      href={`/hrms-guide#${product.slug}`}
-      className="group block p-8 rounded-xl border relative overflow-hidden text-left"
-      style={{ 
-        backgroundColor: T.bg1, 
-        borderColor: T.border,
+    <Tilt
+      rotationFactor={8}
+      isRevese
+      className="h-full"
+      springOptions={{
+        stiffness: 26.7,
+        damping: 4.1,
+        mass: 0.2,
       }}
     >
-      {/* Status Badge */}
-      <div 
-        className="absolute top-6 right-6 font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded border z-10"
-        style={{ borderColor: T.border, color: T.ink3, backgroundColor: T.bg0 }}
+      <Link 
+        href={`/${product.slug}`}
+        className="group block p-8 rounded-xl border relative overflow-hidden text-left h-full flex flex-col"
+        style={{ 
+          backgroundColor: T.bg1, 
+          borderColor: T.border,
+        }}
       >
-        {product.status}
-      </div>
+        <Spotlight
+          className="blur-2xl opacity-20 group-hover:opacity-40 transition-opacity"
+          size={300}
+          style={{
+            background: `radial-gradient(circle at center, ${product.color}, transparent 80%)`
+          } as any}
+        />
+        
+        {/* Status Badge */}
+        <div 
+          className="absolute top-6 right-6 font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded border z-10"
+          style={{ borderColor: T.border, color: T.ink3, backgroundColor: T.bg0 }}
+        >
+          {product.status}
+        </div>
 
-      <div className="mb-6 mr-10 relative z-10" style={{ color: product.color }}>
-        {product.icon}
-      </div>
-      
-      <h2 className="font-serif text-2xl font-normal mb-3 relative z-10" style={{ color: T.ink }}>
-        {product.title}
-      </h2>
-      
-      <p className="text-[14.5px] font-light leading-relaxed mb-8 relative z-10" style={{ color: T.ink2 }}>
-        {product.description}
-      </p>
-      
-      <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest relative z-10 transition-colors" style={{ color: T.ink3 }}>
-        Explore <ArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
-      </div>
-    </Link>
+        <div className="mb-6 mr-10 relative z-10" style={{ color: product.color }}>
+          {product.icon}
+        </div>
+        
+        <h2 className="font-serif text-2xl font-normal mb-3 relative z-10" style={{ color: T.ink }}>
+          {product.title}
+        </h2>
+        
+        <p className="text-[14.5px] font-light leading-relaxed mb-8 relative z-10" style={{ color: T.ink2 }}>
+          {product.description}
+        </p>
+        
+        <div className="mt-auto flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest relative z-10 transition-colors" style={{ color: T.ink3 }}>
+          Explore <ArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
+        </div>
+      </Link>
+    </Tilt>
   );
 }

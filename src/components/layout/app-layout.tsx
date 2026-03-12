@@ -5,10 +5,15 @@ import { usePathname } from "next/navigation";
 import { TopBar } from "@/components/layout/top-bar";
 import { Sidebar } from "@/components/layout/sidebar";
 import { SearchModal } from "@/components/layout/search-modal";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isDocs = pathname.startsWith("/hrms-guide");
+  const isHrms = pathname.startsWith("/hrms-guide");
+  const isMarketing = pathname.startsWith("/marketing-guide");
+  const isDocs = isHrms || isMarketing;
+
+  const currentSection = isMarketing ? ("Marketing Guide" as const) : ("HRMS Guide" as const);
 
   if (!isDocs) {
     return <>{children}</>;
@@ -17,10 +22,33 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="flex flex-col h-screen overflow-hidden">
-        <TopBar />
+        <TopBar currentSection={currentSection} />
         <div className="flex flex-1 overflow-hidden">
-          <Sidebar />
-          {children}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname + "-sidebar"}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+              className="flex shrink-0"
+            >
+              <Sidebar currentSection={currentSection} />
+            </motion.div>
+          </AnimatePresence>
+          
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+              className="flex-1 overflow-hidden"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
       <SearchModal />

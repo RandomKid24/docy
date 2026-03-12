@@ -77,8 +77,9 @@ export function SearchModal() {
     setActiveIdx(0);
   }, []);
 
-  const navigate = useCallback((id: string) => {
-    router.push(`/hrms-guide#${id}`);
+  const navigate = useCallback((id: string, nav: string) => {
+    const route = nav === "Marketing Guide" ? "/marketing-guide" : "/hrms-guide";
+    router.push(`${route}#${id}`);
     close();
   }, [router, close]);
 
@@ -111,7 +112,7 @@ export function SearchModal() {
         e.preventDefault();
         setActiveIdx(i => Math.max(i - 1, 0));
       } else if (e.key === "Enter" && flatResults[activeIdx]) {
-        navigate(flatResults[activeIdx].id);
+        navigate(flatResults[activeIdx].id, flatResults[activeIdx].nav);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -200,7 +201,7 @@ export function SearchModal() {
                   key={r.id}
                   r={r} query="" idx={i} activeIdx={activeIdx}
                   T={T} ac={ac}
-                  onClick={() => navigate(r.id)}
+                  onClick={() => navigate(r.id, r.nav)}
                   onHover={() => setActiveIdx(i)}
                 />
               ))}
@@ -235,7 +236,7 @@ export function SearchModal() {
                       key={r.id}
                       r={r} query={query} idx={idx} activeIdx={activeIdx}
                       T={T} ac={ac}
-                      onClick={() => navigate(r.id)}
+                      onClick={() => navigate(r.id, r.nav)}
                       onHover={() => setActiveIdx(idx)}
                     />
                   );

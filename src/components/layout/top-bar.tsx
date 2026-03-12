@@ -8,7 +8,7 @@ import { DARK, LIGHT, SITE } from "@/data/site-config";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function TopBar() {
+export function TopBar({ currentSection }: { currentSection: string }) {
   const { theme, toggleTheme } = useTheme();
   const T = theme === "dark" ? DARK : LIGHT;
   const pathname = usePathname();
@@ -17,8 +17,8 @@ export function TopBar() {
 
   const [searching, setSearching] = useState(false);
 
-  const isGuide = pathname.startsWith("/hrms-guide");
-  const ac = SITE.sections["HRMS Guide"].color;
+  // @ts-ignore
+  const ac = SITE.sections[currentSection]?.color || SITE.sections["HRMS Guide"].color;
 
   const handleSearchClick = () => {
     setSearching(true);
@@ -68,21 +68,25 @@ export function TopBar() {
 
       {/* Nav links */}
       <div className="flex h-full">
-        {SITE.nav.map(n => (
-          <Link
-            key={n}
-            href="/hrms-guide"
-            className="h-full flex items-center px-3.5 text-[13.5px] font-normal no-underline border-b-2"
-            style={{
-              color: isGuide ? T.ink : T.ink3,
-              borderColor: isGuide ? ac : "transparent",
-              marginBottom: -1,
-              transition: "color 0.2s ease, border-color 0.2s ease",
-            }}
-          >
-            {n}
-          </Link>
-        ))}
+        {SITE.nav.map(n => {
+          const isActive = currentSection === n;
+          const href = n === "Marketing Guide" ? "/marketing-guide" : "/hrms-guide";
+          return (
+            <Link
+              key={n}
+              href={href}
+              className="h-full flex items-center px-3.5 text-[13.5px] font-normal no-underline border-b-2"
+              style={{
+                color: isActive ? T.ink : T.ink3,
+                borderColor: isActive ? ac : "transparent",
+                marginBottom: -1,
+                transition: "color 0.2s ease, border-color 0.2s ease",
+              }}
+            >
+              {n}
+            </Link>
+          );
+        })}
       </div>
 
       {/* Right side */}

@@ -14,6 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 interface DocViewerProps {
+  section: "HRMS Guide" | "Marketing Guide";
   onNavigate?: (slug: string) => void;
 }
 
@@ -38,12 +39,24 @@ const TITLE_ICONS: Record<string, React.ReactNode> = {
   "roles": <Lock size={28} strokeWidth={1.5} />,
   "visibility": <Eye size={28} strokeWidth={1.5} />,
   "quick-tips": <Lightbulb size={28} strokeWidth={1.5} />,
+  // Marketing Icons
+  "m-getting-started": <Shield size={28} strokeWidth={1.5} />,
+  "m-dashboard": <LayoutDashboard size={28} strokeWidth={1.5} />,
+  "m-domains": <Layers size={28} strokeWidth={1.5} />,
+  "m-leads": <Sparkles size={28} strokeWidth={1.5} />,
+  "m-quotations": <FileText size={28} strokeWidth={1.5} />,
+  "m-orders": <Box size={28} strokeWidth={1.5} />,
+  "m-database": <Users size={28} strokeWidth={1.5} />,
+  "m-reports": <BarChart2 size={28} strokeWidth={1.5} />,
+  "m-report-templates": <Layers size={28} strokeWidth={1.5} />,
+  "m-settings": <Settings size={28} strokeWidth={1.5} />,
+  "m-notifications": <Zap size={28} strokeWidth={1.5} />,
 };
 
 // Build a lookup: page id → { groupLabel, pageTitle }
-function buildBreadcrumbMap() {
+function buildBreadcrumbMap(section: "HRMS Guide" | "Marketing Guide") {
   const map = new Map<string, { group: string; title: string }>();
-  const sectionConfig = SITE.sections["HRMS Guide"];
+  const sectionConfig = SITE.sections[section];
   if (!sectionConfig) return map;
   for (const g of sectionConfig.groups) {
     for (const page of g.pages) {
@@ -53,15 +66,14 @@ function buildBreadcrumbMap() {
   return map;
 }
 
-const BREADCRUMB_MAP = buildBreadcrumbMap();
-
-export function DocViewer({ onNavigate }: DocViewerProps) {
+export function DocViewer({ section, onNavigate }: DocViewerProps) {
   const { theme } = useTheme();
   const T = theme === "dark" ? DARK : LIGHT;
   const [activeId, setActiveId] = useState<string>("");
   const [visibleIds, setVisibleIds] = useState<Set<string>>(new Set());
 
-  const sectionConfig = SITE.sections["HRMS Guide"];
+  const breadcrumbMap = buildBreadcrumbMap(section);
+  const sectionConfig = SITE.sections[section];
   if (!sectionConfig) return null;
 
   const ac = sectionConfig.color;
@@ -167,7 +179,7 @@ export function DocViewer({ onNavigate }: DocViewerProps) {
   };
 
   // Derive breadcrumb from activeId
-  const crumb = activeId ? BREADCRUMB_MAP.get(activeId) : null;
+  const crumb = activeId ? breadcrumbMap.get(activeId) : null;
 
   return (
     <div className="flex flex-1 overflow-hidden h-full relative" style={{ backgroundColor: T.bg0 }}>
@@ -191,7 +203,7 @@ export function DocViewer({ onNavigate }: DocViewerProps) {
             Docs
           </a>
           <ChevronRight size={10} strokeWidth={2} style={{ color: T.ink3 }} />
-          <span style={{ color: T.ink3, letterSpacing: "-0.01em" }}>HRMS Guide</span>
+          <span style={{ color: T.ink3, letterSpacing: "-0.01em" }}>{section}</span>
           
           <div className="relative flex-1 overflow-hidden h-full flex items-center">
             <AnimatePresence mode="popLayout">
@@ -228,11 +240,12 @@ export function DocViewer({ onNavigate }: DocViewerProps) {
               className="text-[44px] md:text-[52px] font-semibold leading-tight mb-3 tracking-tight"
               style={{ color: T.ink, fontFamily: "var(--font-dm-serif, serif)" }}
             >
-              HRMS User Guide
+              {section === "HRMS Guide" ? "HRMS User Guide" : "Marketing User Guide"}
             </h1>
             <p className="text-lg font-light leading-relaxed mb-16" style={{ color: T.ink2 }}>
-              The complete handbook for managing your workforce, time &amp; attendance,
-              operations, and system administration.
+              {section === "HRMS Guide" 
+                ? "The complete handbook for managing your workforce, time & attendance, operations, and system administration."
+                : "The complete guide for lead management, orders, organizations, contacts, customers, and marketing reports."}
             </p>
 
             {/* Sections */}

@@ -4,5 +4,5 @@ import React from "react";
 import { DocViewer } from "@/components/docs/doc-viewer";
 
 export default function DocPage() {
-  return <DocViewer />;
+  return <DocViewer section="HRMS Guide" />;
 }
