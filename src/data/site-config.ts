@@ -10,7 +10,21 @@ export const LIGHT = {
   ink: "#09090b", ink2: "#52525b", ink3: "#a1a1aa",
 };
 
-export type SiteNav = "HRMS Guide" | "Marketing Guide";
+import { BILLING_GROUPS } from "./billing-groups";
+
+export type SiteNav = "HRMS Guide" | "Marketing Guide" | "Billing Guide";
+
+export const ROUTES: Record<SiteNav, string> = {
+  "HRMS Guide": "/hrms-guide",
+  "Marketing Guide": "/marketing-guide",
+  "Billing Guide": "/billing-guide",
+};
+
+export const FIRST_PAGE: Record<SiteNav, string> = {
+  "HRMS Guide": "what-is-hrms",
+  "Marketing Guide": "m-getting-started",
+  "Billing Guide": "b-overview",
+};
 
 export interface DocPage {
   id: string;
@@ -37,7 +51,7 @@ export interface SiteConfig {
 
 export const SITE: SiteConfig = {
   name: "BeForth",
-  nav: ["HRMS Guide", "Marketing Guide"],
+  nav: ["HRMS Guide", "Marketing Guide", "Billing Guide"],
   sections: {
     "HRMS Guide": {
       color: "#8b5cf6", // Violet accent
@@ -107,6 +121,14 @@ export const SITE: SiteConfig = {
         ]},
       ],
     },
+    "Billing Guide": {
+      color: "#059669", // Emerald accent
+      groups: [
+        { id: "b-start", label: "Start here", defaultOpen: true, pages: [
+          { id: "b-overview", label: "Retailware Pro overview" },
+        ]},
+        ...BILLING_GROUPS,
+      ],
+    },
   },
 };
-

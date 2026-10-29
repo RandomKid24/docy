@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { CopyBtn } from "@/components/ui/copy-button";
 import { DARK, LIGHT } from "@/data/site-config";
 import { useTheme } from "@/components/providers/theme-provider";
@@ -81,6 +82,14 @@ export function Block({ b, onNav, ac }: BlockProps) {
   const { theme } = useTheme();
   const T = theme === "dark" ? DARK : LIGHT;
   const router = useRouter();
+  const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
+
+  useEffect(() => {
+    if (!zoom) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setZoom(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [zoom]);
 
   const handleNav = (id: string) => {
     if (onNav) {
@@ -89,6 +98,35 @@ export function Block({ b, onNav, ac }: BlockProps) {
       // Logic for internal routing if needed
     }
   };
+
+  if (b.type === "html") return (
+    <>
+      <div
+        className="bill-html"
+        onClick={e => {
+          const t = e.target as HTMLElement;
+          if (t instanceof HTMLImageElement) setZoom({ src: t.src, alt: t.alt });
+        }}
+        style={{ ["--bh-ink" as string]: T.ink, ["--bh-ink2" as string]: T.ink2, ["--bh-ink3" as string]: T.ink3, ["--bh-line" as string]: T.border2, ["--bh-ac" as string]: ac }}
+        dangerouslySetInnerHTML={{ __html: b.html }}
+      />
+      {zoom && createPortal(
+        <div
+          role="dialog"
+          aria-label="Screenshot, enlarged"
+          onClick={() => setZoom(null)}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-3 p-4 md:p-10 cursor-zoom-out"
+          style={{ background: "rgba(9,9,11,.92)" }}
+        >
+          <img src={zoom.src} alt={zoom.alt} className="max-w-full max-h-[86vh] object-contain" style={{ background: "#fff" }} />
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-center max-w-[80ch]" style={{ color: "#a1a1aa" }}>
+            {zoom.alt.replace(/^Screenshot for /, "")} &nbsp;/&nbsp; Esc to close
+          </p>
+        </div>,
+        document.body
+      )}
+    </>
+  );
 
   if (b.type === "lede") return (
     <p className="text-lg leading-relaxed font-light" style={{ color: T.ink2 }}>{inlineMd(b.text, T, ac)}</p>

@@ -167,3 +167,55 @@ button {
   animation: fadeIn 0.3s ease-in-out, slideInUp 0.3s ease-in-out;
 }
 
+
+/* Retailware Pro help pages (raw HTML from the export) */
+.bill-html { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--bh-ink2); }
+.bill-html b { font-weight: 600; color: var(--bh-ink); }
+.bill-html .mut { margin: 0 0 8px; font-size: 17px; color: var(--bh-ink2); }
+.bill-html .prep { margin: 22px 0 8px; border-top: 1px solid var(--bh-line); }
+.bill-html .prep .pt { margin: 10px 0 2px; font-family: var(--font-dm-mono), monospace; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--bh-ink3); }
+.bill-html .prep dl { display: grid; grid-template-columns: 9rem 1fr; }
+.bill-html .prep dt, .bill-html .prep dd { padding: 9px 0; border-bottom: 1px solid var(--bh-line); }
+.bill-html .prep dt { font-size: 13px; color: var(--bh-ink3); }
+.bill-html .prep dd { color: var(--bh-ink); }
+.bill-html .tip, .bill-html .warn { border-left: 2px solid var(--bh-ac); padding: 4px 0 4px 14px; margin: 14px 0; }
+.bill-html .warn { border-left-color: #c0392b; }
+.bill-html ol.steps { list-style: none; padding: 0; margin: 28px 0 0; }
+.bill-html ol.steps li { position: relative; display: grid; grid-template-columns: 2.1rem 1fr; column-gap: 16px; padding-bottom: 34px; }
+.bill-html ol.steps li::before { content: ""; position: absolute; left: calc(1.05rem - .5px); top: 2.4rem; bottom: 6px; width: 1px; background: var(--bh-line); }
+.bill-html ol.steps li:last-child::before { display: none; }
+.bill-html ol.steps li:last-child { padding-bottom: 0; }
+.bill-html .n { width: 2.1rem; height: 2.1rem; line-height: 2.1rem; text-align: center; border-radius: 50%; background: var(--bh-ac); color: #fff; font-weight: 600; font-size: 13px; }
+.bill-html .sb { min-width: 0; padding-top: .2rem; color: var(--bh-ink); font-weight: 400; }
+.bill-html img { display: block; width: 100%; height: auto; margin-top: 14px; border: 1px solid var(--bh-line); border-radius: 3px; cursor: zoom-in; transition: box-shadow .2s, border-color .2s; }
+.bill-html img:hover { border-color: var(--bh-ink3); box-shadow: 0 6px 22px rgba(0,0,0,.18); }
+.bill-html h3 { margin: 38px 0 10px; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; font-family: var(--font-dm-mono), monospace; color: var(--bh-ink3); }
+.bill-html table.t { width: 100%; border-collapse: collapse; font-size: 13.5px; display: block; overflow-x: auto; }
+.bill-html table.t th { text-align: left; color: var(--bh-ink3); font-weight: 400; font-size: 12px; border-bottom-color: var(--bh-ink3); }
+.bill-html table.t td, .bill-html table.t th { padding: 9px 14px 9px 0; border-bottom: 1px solid var(--bh-line); vertical-align: top; }
+.bill-html a { color: var(--bh-ac); }
+.bill-html h2 { display: none; }
+@media (max-width: 640px) {
+  .bill-html .prep dl { grid-template-columns: 1fr; }
+  .bill-html .prep dt { padding-bottom: 0; border-bottom: 0; }
+  .bill-html ol.steps li { grid-template-columns: 1.8rem 1fr; column-gap: 12px; }
+  .bill-html .n { width: 1.8rem; height: 1.8rem; line-height: 1.8rem; font-size: 12px; }
+  .bill-html ol.steps li::before { left: calc(.9rem - .5px); top: 2.1rem; }
+}
+
+/* Home page */
+.home .display { font-family: var(--font-dm-serif), sans-serif; font-weight: 200; letter-spacing: -0.035em; line-height: 0.98; }
+.home .mono { font-family: var(--font-dm-mono), monospace; }
+.home .row { transition: padding-left .25s cubic-bezier(.23,1,.32,1), background-color .2s; }
+.home .row:hover, .home .row[data-on='true'] { padding-left: 14px; }
+.home .rise { animation: home-rise .8s cubic-bezier(.23,1,.32,1) both; }
+.home .reveal { animation: home-reveal 1.1s cubic-bezier(.23,1,.32,1) .15s both; }
+@keyframes home-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes home-reveal { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+.home input::placeholder { color: inherit; opacity: .4; }
+.home a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .home .rise, .home .reveal { animation: none; } .home .row { transition: none; } }
+
+.home input:focus-visible { outline: none; }
+.home .ask { transition: box-shadow .2s; }
+.home .ask:focus-within { box-shadow: 0 2px 0 0 currentColor; }

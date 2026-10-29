@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { SITE, DARK, LIGHT } from "@/data/site-config";
+import { SITE, DARK, LIGHT, SiteNav } from "@/data/site-config";
 import { CONTENT, getDefaultContent, DocContent } from "@/data/docs-content";
 import { useTheme } from "@/components/providers/theme-provider";
 import { Block } from "@/components/docs/block";
@@ -14,7 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 interface DocViewerProps {
-  section: "HRMS Guide" | "Marketing Guide";
+  section: SiteNav;
   onNavigate?: (slug: string) => void;
 }
 
@@ -54,7 +54,7 @@ const TITLE_ICONS: Record<string, React.ReactNode> = {
 };
 
 // Build a lookup: page id → { groupLabel, pageTitle }
-function buildBreadcrumbMap(section: "HRMS Guide" | "Marketing Guide") {
+function buildBreadcrumbMap(section: SiteNav) {
   const map = new Map<string, { group: string; title: string }>();
   const sectionConfig = SITE.sections[section];
   if (!sectionConfig) return map;
@@ -78,9 +78,16 @@ export function DocViewer({ section, onNavigate }: DocViewerProps) {
 
   const ac = sectionConfig.color;
 
+  // The billing guide has ~140 pages, so show one group at a time instead of one endless scroll.
+  const isBilling = section === "Billing Guide";
+  const shownGroup = isBilling
+    ? sectionConfig.groups.find(g => g.pages.some(p => p.id === activeId)) ?? sectionConfig.groups[0]
+    : null;
+
   // Flatten all pages
   const allContents: DocContent[] = [];
   for (const g of sectionConfig.groups) {
+    if (shownGroup && g !== shownGroup) continue;
     for (const page of g.pages) {
       const content = CONTENT[page.id] || getDefaultContent(page.label, g.label);
       allContents.push({ ...content, id: page.id } as DocContent & { id: string });
@@ -102,25 +109,64 @@ export function DocViewer({ section, onNavigate }: DocViewerProps) {
       }),
   }));
 
+  // A link or sidebar click names a target; keep it pinned until the group switch and image loading settle,
+  // otherwise scroll-spy rewrites the hash to whatever is on screen mid-transition.
+  const pinned = useRef("");
+  const lastSpy = useRef("");
+  const knownIds = new Set(sectionConfig.groups.flatMap(g => g.pages.map(p => p.id)));
+  const pin = (h: string) => {
+    if (h && h !== lastSpy.current && knownIds.has(h)) pinned.current = h;
+  };
+
   // Scroll-spy: update active id from hash
   useEffect(() => {
     const onHashChange = () => {
       const hash = window.location.hash.replace("#", "");
+      pin(hash);
       if (hash) setActiveId(hash);
     };
     window.addEventListener("hashchange", onHashChange);
-    const hash = window.location.hash.replace("#", "");
-    if (hash) setActiveId(hash);
+    onHashChange();
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
+
+  // After switching groups the target did not exist yet when the hash changed, so scroll to it now.
+  const shownGroupId = shownGroup?.id ?? section;
+  useEffect(() => {
+    const box = document.getElementById("doc-scroll-container");
+    const target = pinned.current || window.location.hash.replace("#", "");
+    const go = () => {
+      const el = target && document.getElementById(target);
+      if (el) el.scrollIntoView({ behavior: "instant" });
+      else box?.scrollTo({ top: 0, behavior: "instant" });
+    };
+    go();
+    // Screenshots above the target keep loading and push it down; re-aim until they settle or the reader scrolls.
+    const timers = [250, 600, 1200, 2000].map(ms => window.setTimeout(go, ms));
+    if (target && (shownGroup ? shownGroup.pages.some(p => p.id === target) : knownIds.has(target))) {
+      timers.push(window.setTimeout(() => { if (pinned.current === target) pinned.current = ""; }, 2300));
+    }
+    const stopTimers = () => timers.forEach(clearTimeout);
+    const stop = () => { stopTimers(); pinned.current = ""; };
+    box?.addEventListener("wheel", stop, { once: true });
+    box?.addEventListener("touchstart", stop, { once: true });
+    window.addEventListener("keydown", stop, { once: true });
+    return () => {
+      stopTimers();
+      box?.removeEventListener("wheel", stop);
+      box?.removeEventListener("touchstart", stop);
+      window.removeEventListener("keydown", stop);
+    };
+  }, [shownGroupId]);
 
   // IntersectionObserver for scroll-spy active section AND reveal animation
   useEffect(() => {
     const obActive = new IntersectionObserver(
       entries => {
         const visible = entries.find(e => e.isIntersecting);
-        if (visible) {
+        if (visible && !pinned.current) {
           const id = visible.target.id;
+          lastSpy.current = id;
           window.history.replaceState(null, "", `#${id}`);
           window.dispatchEvent(new Event("hashchange"));
           setActiveId(id);
@@ -187,7 +233,7 @@ export function DocViewer({ section, onNavigate }: DocViewerProps) {
 
         {/* ── Sticky Breadcrumb bar ── */}
         <div
-          className="sticky top-0 z-30 border-b px-10 md:px-16 h-10 flex items-center gap-2 text-[12px] font-sans transition-all duration-300"
+          className="sticky top-0 z-30 border-b px-5 md:px-16 h-10 flex items-center gap-2 text-[12px] font-sans transition-all duration-300"
           style={{
             background: `${T.bg0}ee`,
             borderColor: T.border,
@@ -231,19 +277,38 @@ export function DocViewer({ section, onNavigate }: DocViewerProps) {
           </div>
         </div>
 
+        {/* Phone page picker (the sidebar is hidden below md) */}
+        <div className="md:hidden px-5 pt-4">
+          <select
+            aria-label="Go to page"
+            value={activeId || sectionConfig.groups[0].pages[0].id}
+            onChange={e => handleNavigate(e.target.value)}
+            className="w-full border rounded-md px-3 py-2 text-[14px]"
+            style={{ background: T.bg1, color: T.ink, borderColor: T.border2 }}
+          >
+            {sectionConfig.groups.map(g => (
+              <optgroup key={g.id} label={g.label}>
+                {g.pages.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
+              </optgroup>
+            ))}
+          </select>
+        </div>
+
         {/* ── Doc content ── */}
-        <div className="px-10 md:px-16 py-12">
+        <div className="px-5 md:px-16 py-8 md:py-12">
           <div className="max-w-[760px] mx-auto">
 
             {/* Main Title */}
             <h1
-              className="text-[44px] md:text-[52px] font-semibold leading-tight mb-3 tracking-tight"
+              className="text-[34px] md:text-[52px] font-semibold leading-tight mb-3 tracking-tight"
               style={{ color: T.ink, fontFamily: "var(--font-dm-serif, serif)" }}
             >
-              {section === "HRMS Guide" ? "HRMS User Guide" : "Marketing User Guide"}
+              {shownGroup ? shownGroup.label : section === "HRMS Guide" ? "HRMS User Guide" : "Marketing User Guide"}
             </h1>
             <p className="text-lg font-light leading-relaxed mb-16" style={{ color: T.ink2 }}>
-              {section === "HRMS Guide" 
+              {isBilling
+                ? "Retailware Pro billing software. Numbered marks on the screenshots show where to click."
+                : section === "HRMS Guide"
                 ? "The complete handbook for managing your workforce, time & attendance, operations, and system administration."
                 : "The complete guide for lead management, orders, organizations, contacts, customers, and marketing reports."}
             </p>
@@ -268,8 +333,8 @@ export function DocViewer({ section, onNavigate }: DocViewerProps) {
                   <div className="flex items-center gap-1.5 mb-3">
                     {content.group && (
                       <span
-                        className="text-[10px] font-sans font-medium uppercase tracking-[0.08em] px-2 py-0.5 rounded-full border"
-                        style={{ color: ac, borderColor: `${ac}40`, background: `${ac}10` }}
+                        className="font-mono text-[10.5px] font-medium uppercase tracking-[0.14em] pl-2.5 border-l-2"
+                        style={{ color: ac, borderColor: ac }}
                       >
                         {content.group}
                       </span>
@@ -283,9 +348,11 @@ export function DocViewer({ section, onNavigate }: DocViewerProps) {
 
                   {/* Section Title with Icon */}
                   <div className="flex items-center gap-3 mb-6">
-                    <div style={{ color: ac }}>
-                      {TITLE_ICONS[contentId] || <FileText size={28} strokeWidth={1.5} />}
-                    </div>
+                    {!isBilling && (
+                      <div style={{ color: ac }}>
+                        {TITLE_ICONS[contentId] || <FileText size={28} strokeWidth={1.5} />}
+                      </div>
+                    )}
                     <h2
                       className="text-[32px] font-semibold tracking-tight"
                       style={{ color: T.ink, fontFamily: "var(--font-dm-serif, serif)" }}
@@ -303,6 +370,29 @@ export function DocViewer({ section, onNavigate }: DocViewerProps) {
                 </div>
               );
             })}
+
+            {shownGroup && (() => {
+              const gs = sectionConfig.groups;
+              const at = gs.indexOf(shownGroup);
+              const prev = gs[at - 1];
+              const next = gs[at + 1];
+              const Go = ({ g, dir }: { g: typeof shownGroup; dir: "Previous" | "Next" }) => (
+                <button
+                  onClick={() => handleNavigate(g.pages[0].id)}
+                  className={`group flex-1 text-left py-5 border-t transition-colors ${dir === "Next" ? "md:text-right" : ""}`}
+                  style={{ borderColor: T.border2, color: T.ink }}
+                >
+                  <span className="block font-mono text-[10.5px] uppercase tracking-[0.14em] mb-1" style={{ color: T.ink3 }}>{dir} group</span>
+                  <span className="text-[19px] tracking-tight group-hover:underline underline-offset-[6px] decoration-2" style={{ textDecorationColor: ac }}>{g.label.replace("Reference: ", "Reference, ")}</span>
+                </button>
+              );
+              return (
+                <nav aria-label="Group navigation" className="mt-20 flex flex-col md:flex-row gap-x-10">
+                  {prev ? <Go g={prev} dir="Previous" /> : <span className="flex-1" />}
+                  {next ? <Go g={next} dir="Next" /> : <span className="flex-1" />}
+                </nav>
+              );
+            })()}
 
             <div className="h-40" />
           </div>

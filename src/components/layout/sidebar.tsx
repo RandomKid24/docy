@@ -2,14 +2,14 @@
 
 import React from "react";
 import { SidebarGroup } from "./sidebar-group";
-import { DARK, LIGHT, SITE, SiteNav } from "@/data/site-config";
+import { DARK, LIGHT, SITE, SiteNav, FIRST_PAGE } from "@/data/site-config";
 import { useTheme } from "@/components/providers/theme-provider";
 import { motion } from "framer-motion";
 
 export function Sidebar({ currentSection }: { currentSection: SiteNav }) {
   const { theme } = useTheme();
   const T = theme === "dark" ? DARK : LIGHT;
-  const [activeId, setActiveId] = React.useState(currentSection === "Marketing Guide" ? "m-getting-started" : "what-is-hrms");
+  const [activeId, setActiveId] = React.useState(FIRST_PAGE[currentSection]);
 
   React.useEffect(() => {
     // Set initial hash or default to first section

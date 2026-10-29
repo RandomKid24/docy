@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Search, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/providers/theme-provider";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { DARK, LIGHT, SITE } from "@/data/site-config";
+import { DARK, LIGHT, SITE, ROUTES } from "@/data/site-config";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -70,7 +70,7 @@ export function TopBar({ currentSection }: { currentSection: string }) {
       <div className="flex h-full">
         {SITE.nav.map(n => {
           const isActive = currentSection === n;
-          const href = n === "Marketing Guide" ? "/marketing-guide" : "/hrms-guide";
+          const href = ROUTES[n];
           return (
             <Link
               key={n}

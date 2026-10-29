@@ -11,9 +11,14 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHrms = pathname.startsWith("/hrms-guide");
   const isMarketing = pathname.startsWith("/marketing-guide");
-  const isDocs = isHrms || isMarketing;
+  const isBilling = pathname.startsWith("/billing-guide");
+  const isDocs = isHrms || isMarketing || isBilling;
 
-  const currentSection = isMarketing ? ("Marketing Guide" as const) : ("HRMS Guide" as const);
+  const currentSection = isBilling
+    ? ("Billing Guide" as const)
+    : isMarketing
+      ? ("Marketing Guide" as const)
+      : ("HRMS Guide" as const);
 
   if (!isDocs) {
     return <>{children}</>;
@@ -24,20 +29,20 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       <div className="flex flex-col h-screen overflow-hidden">
         <TopBar currentSection={currentSection} />
         <div className="flex flex-1 overflow-hidden">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={pathname + "-sidebar"}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-              className="flex shrink-0"
+              className="hidden md:flex shrink-0"
             >
               <Sidebar currentSection={currentSection} />
             </motion.div>
           </AnimatePresence>
           
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div 
               key={pathname}
               initial={{ opacity: 0, y: 10 }}
@@ -51,7 +56,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </AnimatePresence>
         </div>
       </div>
-      <SearchModal />
+      <SearchModal currentSection={currentSection} />
     </>
   );
 }

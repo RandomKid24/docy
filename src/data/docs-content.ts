@@ -1,4 +1,6 @@
 import React from "react";
+import { BILLING_GROUPS } from "./billing-groups";
+import { BILLING_HTML } from "./billing-html";
 
 export interface DocContent {
   id?: string;
@@ -18,6 +20,7 @@ export type ContentBlock =
   | { type: "features"; items: { icon: string; title: string; desc: string }[] }
   | { type: "steps"; items: { n: string; title: string; body?: string }[] }
   | { type: "linklist"; items: { id: string; label: string }[] }
+  | { type: "html"; html: string }
   | { type: "api"; method: string; path: string; desc: string; response: string };
 
 // Helper to generate default content if a page isn't defined yet
@@ -35,6 +38,22 @@ export function getDefaultContent(title: string, group: string): DocContent {
 }
 
 export const CONTENT: Record<string, DocContent> = {
+  "b-overview": {
+    title: "Retailware Pro overview",
+    blocks: [
+      { type: "lede", text: "Step-by-step guides for Retailware Pro billing software. Numbered marks on the screenshots show where to click. Names and numbers in the pictures are sample data." },
+      { type: "h2", text: "Where to start" },
+      { type: "linklist", items: [
+        { id: "b-daily-jobs-add-customer", label: "Add a customer" },
+        { id: "b-daily-jobs-make-a-sale", label: "Make a sale" },
+        { id: "b-daily-jobs-record-a-purchase", label: "Record a purchase" },
+        { id: "b-daily-jobs-receive-customer-payment", label: "Receive payment from a customer" },
+        { id: "b-daily-jobs-close-the-day", label: "Close the day" },
+      ]},
+      { type: "h2", text: "How the guide is organised" },
+      { type: "p", text: "How to do daily jobs covers adding records, billing, receiving money and closing the day. How to do more jobs covers masters, other sale and purchase documents, vouchers, utilities and stock taking. The Reference sections describe each screen in Masters, Transaction, Reports, Utilities, Admin, Settings, Stock Taking and Log Out." },
+    ],
+  },
   "what-is-hrms": {
     "title": "What is HRMS?",
     "group": "",
@@ -3264,3 +3283,10 @@ export const CONTENT: Record<string, DocContent> = {
     ]
   }
 };
+
+for (const g of BILLING_GROUPS) {
+  for (const p of g.pages) {
+    const html = BILLING_HTML[p.id];
+    if (html) CONTENT[p.id] = { title: p.label, group: g.label, blocks: [{ type: "html", html }] };
+  }
+}

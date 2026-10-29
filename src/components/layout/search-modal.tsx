@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Search, FileText, Hash, ArrowRight, Clock, Layers } from "lucide-react";
 import { useTheme } from "@/components/providers/theme-provider";
-import { DARK, LIGHT, SITE } from "@/data/site-config";
+import { DARK, LIGHT, SITE, ROUTES, SiteNav } from "@/data/site-config";
 import { useRouter } from "next/navigation";
 
 // Build a flat index of all searchable pages with full metadata
@@ -39,34 +39,42 @@ function Highlight({ text, query }: { text: string; query: string }) {
   );
 }
 
-// Group results by their group label
-function groupResults(results: typeof ALL_PAGES) {
+// Group results by guide + group, so same-named groups in different guides stay apart
+function groupResults(results: typeof ALL_PAGES, withGuide: boolean) {
   const map = new Map<string, typeof ALL_PAGES>();
   for (const r of results) {
-    if (!map.has(r.group)) map.set(r.group, []);
-    map.get(r.group)!.push(r);
+    const label = withGuide ? `${r.nav.replace(" Guide", "")} / ${r.group}` : r.group;
+    if (!map.has(label)) map.set(label, []);
+    map.get(label)!.push(r);
   }
   return Array.from(map.entries());
 }
 
-const FEATURED = ALL_PAGES.slice(0, 5); // First 5 pages shown when idle
-
-export function SearchModal() {
+export function SearchModal({ currentSection }: { currentSection: SiteNav }) {
   const [open, setOpen] = useState(false);
+  const [everywhere, setEverywhere] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIdx, setActiveIdx] = useState(0);
   const { theme } = useTheme();
   const T = theme === "dark" ? DARK : LIGHT;
-  const ac = SITE.sections["HRMS Guide"]?.color || "#8b5cf6";
+  const ac = SITE.sections[currentSection].color;
+  const guideName = currentSection.replace(" Guide", "");
+  // Search the guide you are reading by default; one toggle widens it to every guide.
+  const pool = everywhere ? ALL_PAGES : ALL_PAGES.filter(p => p.nav === currentSection);
+  const FEATURED = pool.slice(0, 5);
   const searchRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const results = query.trim()
-    ? ALL_PAGES.filter(p =>
-        p.label.toLowerCase().includes(query.toLowerCase()) ||
-        p.group.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 12)
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  const results = words.length
+    ? pool
+        .filter(p => {
+          const hay = `${p.label} ${p.group}`.toLowerCase();
+          return words.every(w => hay.includes(w));
+        })
+        .sort((a, b) => Number(b.label.toLowerCase().startsWith(words[0])) - Number(a.label.toLowerCase().startsWith(words[0])))
+        .slice(0, 12)
     : [];
 
   const flatResults = query.trim() ? results : FEATURED;
@@ -75,10 +83,11 @@ export function SearchModal() {
     setOpen(false);
     setQuery("");
     setActiveIdx(0);
+    setEverywhere(false);
   }, []);
 
   const navigate = useCallback((id: string, nav: string) => {
-    const route = nav === "Marketing Guide" ? "/marketing-guide" : "/hrms-guide";
+    const route = ROUTES[nav as SiteNav];
     router.push(`${route}#${id}`);
     close();
   }, [router, close]);
@@ -105,7 +114,10 @@ export function SearchModal() {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown") {
+      if (e.key === "Tab") {
+        e.preventDefault();
+        setEverywhere(v => !v);
+      } else if (e.key === "ArrowDown") {
         e.preventDefault();
         setActiveIdx(i => Math.min(i + 1, flatResults.length - 1));
       } else if (e.key === "ArrowUp") {
@@ -135,7 +147,7 @@ export function SearchModal() {
 
   if (!open) return null;
 
-  const grouped = query.trim() ? groupResults(results) : null;
+  const grouped = query.trim() ? groupResults(results, everywhere) : null;
 
   return (
     <div
@@ -162,10 +174,18 @@ export function SearchModal() {
             ref={searchRef}
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder="Search pages, topics, keywords…"
+            placeholder={everywhere ? "Search every guide…" : `Search the ${guideName} guide…`}
             className="flex-1 bg-transparent border-none outline-none text-[15px]"
             style={{ color: T.ink, fontFamily: "inherit" }}
           />
+          <button
+            onClick={() => setEverywhere(v => !v)}
+            title="Switch search scope (Tab)"
+            className="text-[11px] font-mono px-1.5 py-0.5 rounded border transition-colors shrink-0"
+            style={{ color: everywhere ? T.ink : ac, borderColor: everywhere ? T.border2 : `${ac}60`, background: everywhere ? T.bg2 : `${ac}12` }}
+          >
+            {everywhere ? "all guides" : `${guideName} only`}
+          </button>
           {query && (
             <button
               onClick={() => setQuery("")}
@@ -194,13 +214,13 @@ export function SearchModal() {
                 style={{ color: T.ink3 }}
               >
                 <Clock size={10} />
-                Featured pages
+                Start with
               </div>
               {FEATURED.map((r, i) => (
                 <ResultRow
                   key={r.id}
-                  r={r} query="" idx={i} activeIdx={activeIdx}
-                  T={T} ac={ac}
+                  r={r} query="" idx={i} activeIdx={activeIdx} currentSection={currentSection}
+                  T={T} ac={r.accentColor}
                   onClick={() => navigate(r.id, r.nav)}
                   onHover={() => setActiveIdx(i)}
                 />
@@ -213,7 +233,9 @@ export function SearchModal() {
             <div className="py-16 text-center" style={{ color: T.ink3 }}>
               <Search size={28} strokeWidth={1} className="mx-auto mb-3 opacity-30" />
               <p className="text-[14px]">No results for <strong style={{ color: T.ink2 }}>"{query}"</strong></p>
-              <p className="text-[12px] mt-1 opacity-60">Try a different keyword or section name.</p>
+              <p className="text-[12px] mt-1 opacity-60">
+                {everywhere ? "Try a different keyword." : <>Nothing in the {guideName} guide. Press <b>Tab</b> to search all guides.</>}
+              </p>
             </div>
           )}
 
@@ -234,8 +256,8 @@ export function SearchModal() {
                   return (
                     <ResultRow
                       key={r.id}
-                      r={r} query={query} idx={idx} activeIdx={activeIdx}
-                      T={T} ac={ac}
+                      r={r} query={query} idx={idx} activeIdx={activeIdx} currentSection={currentSection}
+                      T={T} ac={r.accentColor}
                       onClick={() => navigate(r.id, r.nav)}
                       onHover={() => setActiveIdx(idx)}
                     />
@@ -251,7 +273,7 @@ export function SearchModal() {
           className="border-t px-4 py-2 flex items-center gap-4 font-mono text-[10.5px]"
           style={{ borderColor: T.border, color: T.ink3 }}
         >
-          {[["↑↓", "navigate"], ["↵", "open"], ["esc", "close"]].map(([k, v]) => (
+          {[["↑↓", "navigate"], ["↵", "open"], ["tab", everywhere ? "this guide only" : "all guides"], ["esc", "close"]].map(([k, v]) => (
             <span key={k} className="flex items-center gap-1">
               <kbd
                 className="px-1.5 py-0.5 rounded border text-[10px] inline-block"
@@ -263,7 +285,7 @@ export function SearchModal() {
             </span>
           ))}
           <span className="ml-auto opacity-50">
-            {query ? `${results.length} result${results.length !== 1 ? "s" : ""}` : `${ALL_PAGES.length} pages indexed`}
+            {query ? `${results.length} result${results.length !== 1 ? "s" : ""}` : `${pool.length} pages indexed`}
           </span>
         </div>
       </div>
@@ -280,8 +302,9 @@ export function SearchModal() {
 
 // ─── Individual result row ───────────────────────────────────────
 function ResultRow({
-  r, query, idx, activeIdx, T, ac, onClick, onHover,
+  r, query, idx, activeIdx, T, ac, onClick, onHover, currentSection,
 }: {
+  currentSection?: SiteNav;
   r: (typeof ALL_PAGES)[0];
   query: string;
   idx: number;
@@ -324,6 +347,7 @@ function ResultRow({
         <div className="text-[11px] flex items-center gap-1 mt-0.5" style={{ color: T.ink3 }}>
           <Hash size={9} strokeWidth={2} />
           <Highlight text={r.group} query={query} />
+          {currentSection && r.nav !== currentSection && <span className="ml-1.5 opacity-70">/ {r.nav.replace(" Guide", "")}</span>}
         </div>
       </div>
 
