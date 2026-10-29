@@ -23,8 +23,8 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Beforth Systems | Acme Docs",
-  description: "Beautifully organized documentation for your team.",
+  title: "BeForth Help Center",
+  description: "Step-by-step help for BeForth software: HR and attendance, marketing, and Retailware Pro billing.",
 };
 
 export default function RootLayout({
